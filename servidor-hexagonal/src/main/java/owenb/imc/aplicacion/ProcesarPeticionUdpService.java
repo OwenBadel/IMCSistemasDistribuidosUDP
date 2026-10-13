@@ -20,6 +20,12 @@ public class ProcesarPeticionUdpService implements ProcesarPeticionUdpInputPort 
     public void procesar(ProcesarPeticionUdpCommand command) {
         Destinatario destinatario = null;
         try {
+            if (command != null && command.ipRemota() != null && command.puertoRemoto() > 0) {
+                try {
+                    destinatario = new Destinatario(command.ipRemota(), command.puertoRemoto());
+                } catch (Exception ignored) {}
+            }
+
             PeticionMapper.PeticionParseada parseada = peticionMapper.parsear(command);
             destinatario = parseada.destinatario();
 
